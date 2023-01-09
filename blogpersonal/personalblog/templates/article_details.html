@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ post.title }} {% endblock %}
+{% block content %}
+<br/>
+
+<h1 style="font-family: 'Julius Sans One', sans-serif; ">{{ post.title }}</h1>
+<small style="font-family: 'Anybody', cursive;">Autor: 
+    {{ post.author.first_name }}
+    {{post.author.last_name }} - 
+    {{ post.post_date }} -
+    </small>
+    <br/> 
+    <hr>
+    <!-- Image -->
+    {% if post.header_image %}
+        <img class="img-fluid rounded-3" src="{{ post.header_image.url }}"  alt="header_image">
+    {% endif %}    
+
+    <!-- Body -->
+    <br/><br/>    
+    <p style="font-family: 'Anybody', cursive;">
+        {{ post.body|safe }}
+    </p>
+    <!-- Button -->
+    {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn link-light" style="background-color: #2B3A55; " type="button"
+            href="{% url 'update-post' post.pk %}">Editar</a>
+        <a class="btn link-light" style="background-color: #2B3A55;" type="button"
+            href="{% url 'delete-post' post.pk %}">Eliminar</a>
+    </div>
+    {% endif %}
+    {% endif %} 
+         
+    <!-- Likes -->
+    <hr>
+    <form action="{% url 'like_post' post.pk %}" method="POST">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+        {% if liked %}
+        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-link" style="padding: 0.1rem">
+            <svg data-name="004_ROMANTIC" height="24" id="_004_ROMANTIC" viewBox="0 0 24 24" width="24"
+                xmlns="http://www.w3.org/2000/svg">
+                <title />
+                <path
+                    d="M15.1123,19.7437a1,1,0,0,1-.6103-1.793c2.66989-2.0518,6.83979-6.7417,5.53609-11.3028a3.642,3.642,0,0,0-1.9805-2.3032,3.58861,3.58861,0,0,0-2.9863-.0366,1,1,0,0,1-.8262-1.8213,5.58257,5.58257,0,0,1,4.6524.0425,5.64437,5.64437,0,0,1,3.0644,3.5688c1.4942,5.2295-2.4277,10.5074-6.2412,13.4385A.9937.9937,0,0,1,15.1123,19.7437Z"
+                    style="fill:#333" />
+                <path
+                    d="M11.082,17.2915a.99971.99971,0,0,1-.7656-1.6416l1.3701-1.6382-2.042-2.3569a1.0003,1.0003,0,0,1-.0224-1.2832L11.9746,7.46a4.72432,4.72432,0,0,0-1.8369-2.7393,4.16267,4.16267,0,0,0-3.79-.4751A3.64245,3.64245,0,0,0,3.9619,6.6475a1.00029,1.00029,0,0,1-1.9238-.5489A5.61962,5.61962,0,0,1,5.6865,2.3579a6.163,6.163,0,0,1,5.6123.7339A6.35464,6.35464,0,0,1,14,7.7813a1.00152,1.00152,0,0,1-.2217.6284l-2.0742,2.5678,2.0518,2.3682a.9994.9994,0,0,1,.0107,1.2964l-1.917,2.291A.99728.99728,0,0,1,11.082,17.2915Z"
+                    style="fill:#333" />
+                <path
+                    d="M12,21.373c-2.374,0-10.2881-6.1123-10.2881-12.9296a8.51957,8.51957,0,0,1,.3272-2.3457.99957.99957,0,1,1,1.9218.5507,6.54,6.54,0,0,0-.249,1.795c0,5.7719,7.0459,10.8706,8.292,10.9296a1.01888,1.01888,0,0,1,.9736,1.023A.98119.98119,0,0,1,12,21.373Z"
+                    style="fill:#333" />
+            </svg>
+        </button>
+        {% else %}
+        <button class="btn btn-link" type="submit" name="post_id" value="{{ post.id }}" style="padding: 0.1rem">
+        <svg data-name="004_ROMANTIC" height="24" id="_004_ROMANTIC" viewBox="0 0 24 24" width="24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title />
+            <path
+                d="M12,21.373c-1.3848-.0009-3.5459-1.6816-4.1748-2.1967a1,1,0,1,1,1.2666-1.5479,7.9269,7.9269,0,0,0,2.9121,1.7446c1.2388-.0585,8.2847-5.1572,8.2847-10.92964a6.51217,6.51217,0,0,0-.25-1.79492A3.68088,3.68088,0,0,0,16.5059,4a3.88133,3.88133,0,0,0-3.5772,2.74463,1.00007,1.00007,0,0,1-1.8569,0A3.88179,3.88179,0,0,0,7.49463,4,3.682,3.682,0,0,0,3.96143,6.648a6.53831,6.53831,0,0,0-.24952,1.79541A10.92792,10.92792,0,0,0,6.41943,14.939a.99971.99971,0,1,1-1.55664,1.2548A12.86383,12.86383,0,0,1,1.71191,8.44336a8.52873,8.52873,0,0,1,.32666-2.34473A5.69047,5.69047,0,0,1,7.49463,2,5.54228,5.54228,0,0,1,12,4.32715,5.54245,5.54245,0,0,1,16.5059,2a5.68919,5.68919,0,0,1,5.4555,4.09814,8.50561,8.50561,0,0,1,.3272,2.34522C22.2886,15.2607,14.3735,21.373,12,21.373Z"
+                style="fill:#333" />
+        </svg>
+        </button>
+    
+        {% endif %}
+        {% else %}
+        <small>
+            Inicia Sessión para poder comentar
+            <a class="button is-light" href="{% url 'login' %}">Inicia Sessión </a>
+            <br>
+        </small>
+        {% endif %}
+        - {{ total_likes }} Likes
+    </form>
+    <hr>
+    <!-- Comments -->   
+    <div class="d-flex align-items-center">
+        <h5 style="font-family: 'Julius Sans One', sans-serif;"> Comentarios </h3>
+        
+            {% if not post.comments.all %}
+        
+            <a class="px-3" href="{% url 'add-comment' post.pk %}">
+                <svg height="40px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <circle style="fill:#DB2B42;" cx="256" cy="256" r="256" />
+                    <path style="fill:#FFFFFF;" d="M394.856,115.696H117.312c-13.88,0-25.232,11.352-25.232,25.232v176.616
+                    	c0,13.88,11.352,25.232,25.232,25.232h132.464l94.616,75.696v-75.696h50.464c13.88,0,25.232-11.352,25.232-25.232V140.92
+                    	C420.08,127.048,408.728,115.696,394.856,115.696z" />
+                    <g>
+                        <circle style="fill:#A2DFE9;" cx="169.28" cy="234.4" r="26.416" />
+                        <circle style="fill:#A2DFE9;" cx="256.08" cy="234.4" r="26.416" />
+                        <circle style="fill:#A2DFE9;" cx="342.864" cy="234.4" r="26.416" />
+                    </g>
+                </svg>
+            </a>
+            {% else %}
+        
+            <a href="{% url 'add-comment' post.pk %}">
+                Agregar Comentario
+            </a>
+            {% for comment in post.comments.all %}
+            <strong>
+                {{ comment.name }} - {{ comment.date_added }}
+            </strong>
+            {{ comment.body }}
+            {% endfor %}
+            <a href="{% url 'add-comment' post.pk %}">
+                Agregar un comentario
+            </a>
+            {% endif %}
+
+    </div>
+    
+
+<hr>
+    <!-- Cards -->
+
+    <div class="card mb-3 shadow-lg" style="border-radius: 30px;">
+        <div class="row g-0">
+            <div class="col-md-2">
+    {% if post.author.profile.profile_pic %}
+                <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" >
+    {% else %}
+                <img src="{% static 'personalblog/images/perfildefault.png' %}" class="img-fluid rounded-start">
+    {% endif %}
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-family: 'Julius Sans One', sans-serif;"> 
+                        {{ post.author.first_name }}      {{post.author.last_name }} 
+                    </h5>
+                    <p class="small text-muted" >
+                            <a href="{% url 'show_profile_page' post.id %}"><box-icon name='user'></box-icon></a>   
+                                            {% if post.author.profile.website_url %}
+                            <a href="{{ post.author.profile.website_url }}">Website</a> 
+                        {% endif %}
+
+                        {% if post.author.profile.facebook_url %}
+                            <a href="{{ post.author.profile.facebook_url }}">      <box-icon type='logo' name='facebook-square'></box-icon></a> 
+                        {% endif %}
+
+                        {% if post.author.profile.twitter_url %}
+                            <a href="{{ post.author.profile.twitter_url }}"><box-icon type='logo' name='twitter'></box-icon></a> 
+                        {% endif %}
+
+                        {% if post.author.profile.instagram_url %}
+                        <a href="{{ post.author.profile.instagram_url }}"><box-icon type='logo' name='instagram-alt'></box-icon></a> 
+                        {% endif %}
+                        
+                        {% if post.author.profile.pinterest_url %}
+                        <a href="{{ post.author.profile.pinterest_url }}"><box-icon name='pinterest' type='logo'></box-icon></a>
+                        {% endif %}
+                    </p>
+                    <p class="card-text" style="font-family: 'Anybody', cursive;">
+                        {{ post.author.profile.bio }}
+                    </p>                
+                </div>
+            </div>
+        </div>
+    </div>
+<hr><br>
+    <!-- Arrow -->
+    <a href="{% url 'home' %}">
+        <svg width="40px" height="40px" viewBox="0 -4 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <title>arrow-left</title>
+            <desc>Created with Sketch.</desc>
+            <defs>
+        
+            </defs>
+            <g id="Vivid.JS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Vivid-Icons" transform="translate(-437.000000, -651.000000)">
+                    <g id="Icons" transform="translate(37.000000, 169.000000)">
+                        <g id="arrow-left" transform="translate(390.000000, 468.000000)">
+                            <g transform="translate(10.000000, 14.000000)" id="Shape">
+                                <polygon fill="#FF6E6E" points="28 12 8 12 13 17 10 20 0 10 10 0 13 3 8 8 28 8">
+        
+                                </polygon>
+                                <polygon fill="#0C0058" points="20 8 20 12 28 12 28 8">
+        
+                                </polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    </a><br>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Editar Página de Perfil {% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+        <br>
+        <h1 style="font-family: 'Julius Sans One', sans-serif;
+">Editar Página de Perfil</h1>
+        <hr>
+        <br>
+        <div class="form-group">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <button  class="btn link-light" style="background-color: #2B3A55;">Editar</button>
+        </div>
+    {% else %}
+        No eres el usuario correcto para editar esta página..
+    {% endif %}
+        
+{% else %}
+    ¡No tienes permiso para hacerlo! Inicia Sesión, Por favor :)
+{% endif %}
+
+{% endblock %}

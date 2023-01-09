@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+<h1 style="font-family: 'Julius Sans One', sans-serif;
+">Nuestro Camino</h1>
+<hr>
+<br> 
+<p style="font-family:  'Anybody', cursive;"> En mi  familia siempre hubo arte por donde veas. Mi madre principalmente era artista plástica y escultora, de ella aprendí de pequeña a rodearme de oleos, pincele s, brochas y demás; por otro lado de mi padre heredé el gusto por la creación ya que en sus tiempos libres le gustaba hacer muebles, así que sabia sobre maderas, pintura y restauración. Un día simplemente comencé con un mueble que había pertenecido a mi abuela, lo transforme y me sorprendió. Mi segundo proyecto fue la restauración de un antiguo tocadiscos de comienzos de siglo XX perteneciente a una tia lejana. Ver como esos objetos contaban nuestra historia, se dotaban de alma y decoraban mi hogar con la calidez de ese aire vintage, desperto en mi la pasión por la restauración y la decoración.  </p>  
+ <p style="font-family:  'Anybody', cursive;"> Y desde entonces llegan a mi reliquias de familias en busqueda de recuperar sus reliquias, con historias y recuerdos que conmueven y aumentan día a día mis ganas de darle vida al pasado. </p>
+<img src="{% static 'personalblog/images/' %}" alt="">
+<button class="btn link-light" style="background-color: #2B3A55;">
+    <a style="text-decoration: none;" href="{% url 'home' %}">Atras</a>
+</button>
+
+{% endblock content %}
+

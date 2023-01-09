@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Registrarse {% endblock %}
+{% block content %}
+<br>
+<h1 style="font-family: 'Julius Sans One', sans-serif;
+">Registrate</h1>
+<h3 style="font-family:  'Anybody', cursive;"> Completá los siguientes datos</h3>
+<hr>
+<br>
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <button class="btn link-light" style="background-color: #2B3A55;">Registrarse</button>
+</div>
+{% endblock %}

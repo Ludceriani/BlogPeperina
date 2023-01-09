@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Categorías {% endblock %}
+{% block content %}
+     
+    <h1 style="font-family: 'Julius Sans One', sans-serif;">Blog Categorías</h1>
+
+    {% for item in cat_menu_list %}
+        <h5 style="font-family: 'Anybody', cursive;"><a   class="dropdown-item" href="{% url 'category' item|slugify %}"> {{item}} </a></h5>
+    {% endfor %}
+    <br>
+    <br>
+
+
+{% endblock %}

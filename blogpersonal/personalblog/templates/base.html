@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Boostrap Links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    
+    <!-- Boostrap CSS -->
+    <link href="css/styles.css" rel="stylesheet" type="text/html">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   
+    <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet"       integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100;0,200;0,500;1,200&family=Julius+Sans+One&display=swap"
+        rel="stylesheet">
+
+
+    <title>{% block title %} Peperina Blog de Restauraciones y DecoHome {% endblock %}</title>
+</head>
+
+<body >
+    <main class="container">
+        <!--Navbar -->        
+        <nav class="navbar navbar-expand-lg
+        " style="font-family: 'Anybody', cursive; color:#F2E5E5; background-color: #CE7777; border-bottom: ridge;">
+            <!--Navbar Icon -->
+            <div class="container-fluid">
+                <a class="navbar-brand fs-2 link-light" href="{% url 'home' %}" style="font-family: 'Julius Sans One', sans-serif;">Peperina Restaura</a>                                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">                       
+                        
+                        {% if cat_menu %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle link-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>                          
+            
+                                <div class="dropdown-menu" style="background-color: #E8C4C4;" aria-labelledby="navbarDropdown">
+                                    {% for item in cat_menu %}
+                                        <a class="dropdown-item" style="color: #2B3A55;" href="{% url 'category' item|slugify %}"> {{item}} </a> 
+                                    {% endfor %}            
+                                </div>
+                            </li>
+                        {% else %}        
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="{% url 'category-list' %}">Categorías</a>
+                            </li>        
+                        {% endif %}                            
+                      
+                        
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle link-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </a>
+                                    <div class="dropdown-menu"  style="background-color: #E8C4C4;" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link" style="color: #2B3A55;" href="{% url 'add-post' %}">Agregar Post</a>
+                                        <a class="nav-link" style="color: #2B3A55;" href="{% url 'add-category' %}">Agregar Categoría</a>                        
+                                    </div>
+                            </li> 
+                        {% else %} 
+                            <li class="nav-item">
+                                <a class="nav-link" style="color: #F2E5E5; background-color: #2B3A55; border-radius: 90px; margin-left: 22rem;" href="{% url 'register' %}">
+                                    <strong>Resgistrarse</strong>
+                                </a>
+                            </li>
+                            <a class="nav-link" style="color: #F2E5E5; background-color: #2B3A55; border-radius: 90px;" href="{% url 'login' %}">
+                                <strong>Iniciar Sesión</strong>
+                            </a>
+                            <li>
+                        {% endif %}
+                    </ul>
+
+                    {% if user.is_authenticated %}       
+        
+                        <li class="nav-item dropdown" style="list-style: none; border-radius: 90px; background-color: #2B3A55;" >
+                            <a class="nav-link dropdown-toggle link-light" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Hola
+                                {{ user.first_name }}!
+                            </a>
+                            <ul class="dropdown-menu" style="background-color: #E8C4C4;">
+                                <li><a class="dropdown-item" style="color: #2B3A55;" href="{% url 'edit_profile' %}">Editar Información</a>
+                                </li>                               
+                                
+                                {% if user.profile.id %}
+                                    <li><a class="dropdown-item" style="color: #2B3A55;" href="{% url 'show_profile_page' user.profile.id %}">Ver Perfil</a></li>
+                                    <li><a class="dropdown-item" style="color: #2B3A55;" href="{% url 'edit_profile_page' user.profile.id %}">Editar Perfil</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" style="color: #2B3A55;" href="{% url 'create_user_profile_page' %}">Crear Perfil</a>
+                                    </li>
+                                {% endif %}
+                                <li class="dropdown-item">
+                                <a class="button is-small" style="color: #CE7777;" href="{% url 'logout' %}"> Cerrar Sesión
+                                </a>
+                                </li>        
+                            </ul>
+                        </li>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </nav>
+        
+        <!--Static Image -->
+
+        {% load static %}
+
+        <img src="{% static 'personalblog/images/Home1.png' %}" class="img-fluid">
+        <!--Content-->
+        <div class="row g-5">
+            <!-- Article -->
+            <div class="col-md-8">
+                
+                    {% block content %}
+                    
+                    {% endblock %}                
+            </div>
+            <!--Colum About -->
+            <div class="col-md-4" id="about">
+                <br>
+                <div class="position-sticky" style="top: 2rem;">
+                    <div class="p-4 mb-3 rounded-5" style="background-color: #2B3A55; ">
+                        <h4 class="fst-italic" style="font-family: 'Julius Sans One', sans-serif; color: #CE7777;">Sobre Nosotros</h4>
+                        <p class="mb-0" style="font-family: 'Anybody', cursive;  color: #E8C4C4;">
+                            Mi nombre es Agostina soy restauradora en Peperina Restaura. <br/> En este Blog quiero compartirles mi día a día              trabajando y todo el conocimiento e inspiración que hacen esto posible ♥.</p>
+                            <a style="color: #CE7777;" href="{% url 'about-us' %}">Leer más..</a>
+                    </div>
+            <!--Colum Category -->
+            
+                    <h4 class="fst-italic" style="font-family: 'Julius Sans One', sans-serif; color: #2B3A55;">
+                        Categorías
+                        </h4>
+                    <ol class="list-unstyled" style="font-family: 'Anybody', cursive;
+"><div class="dropdown"></div>
+                        <li>
+                            {% for item in cat_menu %}
+                                <a class="dropdown-item" href="{% url 'category' item|slugify %}"> {{item}} </a>
+                            
+                            {% endfor %}
+                        </li>
+                    </ol>
+                    <!--Colum Social  -->
+                    <h4 class="fst-italic" style="font-family: 'Julius Sans One', sans-serif; color: #2B3A55;">Encontranos en..</h4>
+                    <ol class="list-unstyled" style="font-family: 'Anybody', cursive; 
+">
+                        <li><a style="text-decoration: none; color: #2B3A55;" href="#">Instagram</a></li>
+                        <li><a style="text-decoration: none; color: #2B3A55;" href="#">Twitter</a></li>
+                        <li><a style="text-decoration: none; color: #2B3A55;" href="#">Facebook</a></li>
+                    </ol>  
+                </div>
+            </div>
+        </div>    
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <!--Footer-->
+    <div class="container" style="background-color: #CE7777;">
+        <footer class="d-flex justify-content-start py-4 my-4">
+            <div class="col-md-3 my-3 mx-2">
+                <h5 style="font-family: 'Julius Sans One', sans-serif; color: #F2E5E5;"> Peperina Restaura </h5>
+            </div>
+            <div class="col-md-3 my-3">
+                <ul class="d-flex list-unstyled">
+                    <li class="ms-3">
+                        <a href="#"><box-icon type='logo' color='white' name='facebook-square'></box-icon></a>
+                    </li>
+                    <li class="ms-3"><a
+                            href="https://ar.pinterest.com/a_cerianita/?invite_code=bab7947d9d1947c1b04e4d01ce60de24&sender=586664426367657146"><box-icon
+                                name='pinterest' color='white' type='logo'></box-icon></a>
+                    </li>
+                    <li class="ms-3"><a href="https://instagram.com/peperinasp?igshid=YmMyMTA2M2Y="><box-icon type='logo'
+                                name='instagram-alt' color='white'></box-icon>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-5 my-3">
+                <form>
+                    <h5 style="font-family: 'Julius Sans One', sans-serif; color: #F2E5E5;">Contactame</h5>
+                    <p style="font-family: 'Anybody', cursive; color:#F2E5E5;"> Para consultas o presupuestos.</p>
+                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                        <label for="newsletter1" class="visually-hidden">Email address</label>
+                        <input id="newsletter1" type="text" class="form-control" placeholder="Escribime aquí..">
+                        <button class="btn link-light" style="background-color: #2B3A55;" type="button">Enviar</button>
+                    </div>
+                </form>
+            </div>
+    
+    
+        </footer>
+    </div>
+</body>
+
+
+        
+</html>

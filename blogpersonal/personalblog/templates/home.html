@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <br>
+    <br>    
+    <article class="blog-post">
+        {% for post in object_list %}
+            <h2 class="blog-post-title mb-1 fs-1" style="font-family: 'Julius Sans One', sans-serif;">
+                <a class="text-bg-light" style="text-decoration: none;" href="{% url 'article-detail' post.pk %}">{{ post.title }} </a>
+            </h2>
+            <p class="blog-post-meta"> {{ post.post_date }} <a class="text-bg-light" style="text-decoration: none; font-family: 'Anybody', cursive;"> Autor: {{ post.author.first_name }} {{ post.author.last_name }} </a></p>
+           
+            <div>
+                <p>
+                {{ post.snippet }}
+            </p>
+            </div>
+            {% if user.is_authenticated %}
+                {% if user.id == post.author.id %}
+                <button type="button" class="btn  btn-light">
+                    <a class="link" style="text-decoration: none; color: #2B3A55;" href="{% url 'update-post' post.pk %}">Editar</a>
+                </button>
+
+                <button type="button" class="btn btn-light">
+                    <a class="link" style="text-decoration: none; color: #2B3A55;" href="{% url 'delete-post' post.pk %}">Eliminar</a>
+                </button>
+                {% endif %}
+                
+            {% endif %}
+            <br />
+            <hr> 
+        {% endfor %}
+        <br>
+        <br>        
+        <nav class="blog-pagination" aria-label="Pagination">
+            <a class="btn link-light" style="background-color: #2B3A55;" href="#">Atrás</a>
+            <a class="btn disabled" style="background-color: #2B3A55;">Siguiente</a>
+        </nav>
+    
+    </article>
+{% endblock %}

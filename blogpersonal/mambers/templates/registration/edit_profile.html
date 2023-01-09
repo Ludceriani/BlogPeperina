@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Editar Información Personal{% endblock %}
+{% block content %}
+<br>
+<h1 style="font-family: 'Julius Sans One', sans-serif;
+">Editar Información Personal</h1>
+<hr><br/>
+
+{{ user.profile.bio }}
+
+<br/><br/>
+
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <button class="btn link-light" style="background-color: #2B3A55;">Subir Cambios</button>
+</div>
+{% endblock %}

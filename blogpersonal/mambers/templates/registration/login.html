@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} Iniciar Sessión{% endblock %}
+{% block content %}
+<br>
+<h1 style="font-family: 'Julius Sans One', sans-serif;
+">Iniciar Sesión</h1>
+<hr>
+<br>
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username">         
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+        
+        <br>
+        <button class="btn link-light" style="background-color: #2B3A55;">Iniciar</button>
+        
+        <br> <br>
+        ¿Todavía no estás registrado? Resgistrate 
+        <a href="{% url 'register' %}" style="color: #CE7777;">Aquí...</a>
+    </form>
+        
+</div>
+
+{% endblock %}

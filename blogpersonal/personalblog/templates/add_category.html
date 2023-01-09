@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Crea una Nueva Categoría {% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<br>
+<h1  style="font-family: 'Julius Sans One', sans-serif;
+">Crear Nueva Categoría</h1>
+<hr>
+<br>
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <button class="btn link-light" style="background-color: #2B3A55;">Crear</button>
+</div>
+{% else %}
+¡No tienes permiso para hacerlo! Inicia Sesión, Por favor :)
+{% endif %}
+{% endblock %}

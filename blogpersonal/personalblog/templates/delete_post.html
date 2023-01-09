@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Eliminar Post {% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+
+        <br>
+        <h1  style="font-family: 'Julius Sans One', sans-serif"> Eliminar </h1>
+        <hr>
+        <h3  style="font-family:  'Anybody', cursive;">{{ post.title }}</h3>
+
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                <br>
+                <strong  style="font-family:  'Anybody', cursive;">¿Estás seguro?</strong>
+                <br>
+                <br>
+                <button class="btn link-light" style="background-color: #2B3A55;">Eliminar</button>
+        </div>
+    {% else %}
+        ¡No tienes permiso para hacerlo!
+    {% endif %}
+{% else %}
+¡No tienes permiso para hacerlo! Inicia Sesión, Por favor :)
+{% endif %}
+{% endblock %}
